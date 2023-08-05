@@ -71,7 +71,7 @@ namespace Supermarket
                     IncreaceWeight(_buyers[0].GetName(index), _buyers[0].GetWeight(index));
                     _buyers[0].DeleteCell(index);
                 }
-
+                Console.WriteLine();
                 _buyers[0].ReduceMoney(_buyers[0].GetCost());
                 _money += _buyers[0].GetCost();
                 _buyers.RemoveAt(0);
