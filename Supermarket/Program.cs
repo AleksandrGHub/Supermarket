@@ -17,7 +17,7 @@ namespace Supermarket
 
     class Supermarket
     {
-        private int _money=0;
+        private int _money;
         private int _numberbuyers = 1;
         private Random _random = new Random();
         private List<Cell> _cells = new List<Cell>();
