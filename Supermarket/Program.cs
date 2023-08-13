@@ -11,17 +11,17 @@ namespace Supermarket
 
             supermarket.CreateBuyers();
             supermarket.AddCells();
-            supermarket.PayProducts();
+            supermarket.ServeClients();
         }
     }
 
     class Supermarket
     {
         private int _money;
-        private int _numberbuyers = 1;
+        private int _numberbuyers = 2;
         private Random _random = new Random();
         private List<Cell> _cells = new List<Cell>();
-        private List<Buyer> _buyers = new List<Buyer>();
+        private Queue<Buyer> _buyers = new Queue<Buyer>();
 
         public Supermarket()
         {
@@ -39,7 +39,7 @@ namespace Supermarket
         {
             for (int i = 0; i < _numberbuyers; i++)
             {
-                _buyers.Add(new Buyer());
+                _buyers.Enqueue(new Buyer());
             }
         }
 
@@ -61,21 +61,24 @@ namespace Supermarket
             }
         }
 
-        public void PayProducts()
+        public void ServeClients()
         {
             do
             {
-                while (_buyers[0].Money <= _buyers[0].GetCost())
+                Buyer buyer = _buyers.Dequeue();
+
+                while (buyer.Money <= buyer.GetCost())
                 {
-                    int index = _random.Next(_buyers[0].GetCountCells());
-                    IncreaceWeight(_buyers[0].GetName(index), _buyers[0].GetWeight(index));
-                    _buyers[0].DeleteCell(index);
+                    int index = _random.Next(buyer.GetCountCells());
+                    IncreaceWeight(buyer.GetName(index), buyer.GetWeight(index));
+                    buyer.DeleteCell(index);
                 }
-                _buyers[0].ReduceMoney(_buyers[0].GetCost());
-                _money += _buyers[0].GetCost();
-                _buyers.RemoveAt(0);
+
+                buyer.ReduceMoney(buyer.GetCost());
+                _money += buyer.GetCost();
             }
             while (_buyers.Count > 0);
+
         }
 
         public void IncreaceWeight(string name, int weight)
@@ -92,26 +95,27 @@ namespace Supermarket
 
     class Product
     {
-        public string Name { get; private set; }
-        public int Cost { get; private set; }
-
         public Product(string name, int cost)
         {
             Name = name;
             Cost = cost;
         }
+
+        public string Name { get; private set; }
+        public int Cost { get; private set; }
+
     }
 
     class Cell
     {
-        public Product Product { get; private set; }
-        public int Weight { get; private set; }
-
         public Cell(Product product, int weight)
         {
             Product = product;
             Weight = weight;
         }
+
+        public Product Product { get; private set; }
+        public int Weight { get; private set; }
 
         public void ReduceWeight(int weight)
         {
@@ -131,13 +135,14 @@ namespace Supermarket
 
     class Buyer
     {
-        public int Money { get; private set; }
         private Basket _basket = new Basket();
 
         public Buyer()
         {
             Money = 1000;
         }
+
+        public int Money { get; private set; }
 
         public void AddCell(string name, int coast, int weight)
         {
@@ -198,8 +203,9 @@ namespace Supermarket
 
         public int DeleteCell(int index)
         {
+            int weight = _cells[index].Weight;
             _cells.RemoveAt(index);
-            return _cells[index].Weight;
+            return weight;
         }
 
         public int GetCount()

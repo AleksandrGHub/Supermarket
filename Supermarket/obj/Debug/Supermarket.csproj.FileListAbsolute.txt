@@ -1,0 +1,8 @@
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.exe.config
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.exe
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.pdb
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.AssemblyReference.cache
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.SuggestedBindingRedirects.cache
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.CoreCompileInputs.cache
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.exe
+C:\Users\t8m39\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.pdb
