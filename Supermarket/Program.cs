@@ -18,7 +18,7 @@ namespace Supermarket
     class Supermarket
     {
         private int _money;
-        private int _numberbuyers = 2;
+        private int _numberbuyers = 4;
         private Random _random = new Random();
         private List<Cell> _cells = new List<Cell>();
         private Queue<Buyer> _buyers = new Queue<Buyer>();
