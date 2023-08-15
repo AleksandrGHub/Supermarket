@@ -11,14 +11,16 @@ namespace Supermarket
 
             supermarket.CreateBuyers();
             supermarket.AddCells();
+            supermarket.ShowInfo();
             supermarket.ServeClients();
+            supermarket.ShowMoney();
         }
     }
 
     class Supermarket
     {
         private int _money;
-        private int _numberbuyers = 4;
+        private int _numberbuyers = 3;
         private Random _random = new Random();
         private List<Cell> _cells = new List<Cell>();
         private Queue<Buyer> _buyers = new Queue<Buyer>();
@@ -63,22 +65,28 @@ namespace Supermarket
 
         public void ServeClients()
         {
+            int numberBuyer = 1;
+
             do
             {
                 Buyer buyer = _buyers.Dequeue();
+                Console.WriteLine("Покупатель " + numberBuyer + " убрал из корзины:");
 
                 while (buyer.Money <= buyer.GetCost())
                 {
                     int index = _random.Next(buyer.GetCountCells());
                     IncreaceWeight(buyer.GetName(index), buyer.GetWeight(index));
+                    Console.WriteLine(buyer.GetName(index) + "   " + buyer.GetWeight(index) + " кг   " + buyer.GetCost(index) + " руб.");
                     buyer.DeleteCell(index);
                 }
 
+                numberBuyer++;
                 buyer.ReduceMoney(buyer.GetCost());
                 _money += buyer.GetCost();
+                Console.Write("\n");
+                buyer.ShowInfo();
             }
             while (_buyers.Count > 0);
-
         }
 
         public void IncreaceWeight(string name, int weight)
@@ -90,6 +98,25 @@ namespace Supermarket
                     cell.IncreaseWeight(weight);
                 }
             }
+        }
+
+        public void ShowInfo()
+        {
+            int numberBuyer = 1;
+            Console.WriteLine("Количество покупателей в очереди " + _buyers.Count);
+            ShowMoney();
+            Console.Write("\n");
+
+            foreach (Buyer buyer in _buyers)
+            {
+                Console.WriteLine("Покупатель " + numberBuyer++);
+                buyer.ShowInfo();
+            }
+        }
+
+        public void ShowMoney()
+        {
+            Console.WriteLine("Количество денег у магазина " + _money + " руб.");
         }
     }
 
@@ -178,6 +205,17 @@ namespace Supermarket
         {
             return _basket.GetWeight(index);
         }
+
+        public int GetCost(int index)
+        {
+            return _basket.GetCost(index);
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine("У покупателя осталось " + Money + " руб.");
+            _basket.ShowInfo();
+        }
     }
 
     class Basket
@@ -221,6 +259,22 @@ namespace Supermarket
         public int GetWeight(int index)
         {
             return _cells[index].Weight;
+        }
+
+        public int GetCost(int index)
+        {
+            return _cells[index].Weight * _cells[index].Product.Cost;
+        }
+
+        public void ShowInfo()
+        {
+            for (int i = 0; i < _cells.Count; i++)
+            {
+                Console.WriteLine(_cells[i].Product.Name + "     " + _cells[i].Product.Cost + " руб/кг   " + _cells[i].Weight + " кг   " + _cells[i].Product.Cost * _cells[i].Weight + " руб.");
+            }
+
+            Console.WriteLine("Итого " + SumUpCost() + " руб.");
+            Console.Write("\n");
         }
     }
 }
